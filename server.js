@@ -82,6 +82,9 @@ wss.on('connection', (ws) => {
           message.type = INCOMING_NOTIFICATION;
           message.content = message.content;
           break;
+        case INCOMING_USER_INFO:
+        console.log(data);
+        break;
         default:
           throw new Error(`Unknown event type ${message.type}`);
       }
