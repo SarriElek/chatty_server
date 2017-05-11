@@ -9,7 +9,7 @@ const INCOMING_NOTIFICATION = 'incomingNotification';
 const INCOMING_USER_INFO = 'incomingUserInfo';
 const POST_MESSAGE = 'postMessage';
 const POST_NOTIFICATION = 'postNotification';
-const COLORS = ['message-username-firebrick', 'message-username-indigo', 'message-username-forestgreen', 'message-username-plum'];
+const COLORS = ['firebrick', 'indigo', 'forestgreen', 'plum'];
 const MATCH_REGEX = /https:\S*\.(jpg|png|gif)/gi;
 // Create a new express server
 const server = express()
@@ -68,7 +68,11 @@ wss.on('connection', (ws) => {
   setUserColor(ws);
   sendUsersInfo();
   ws.on('message', (data) => {
-    let message = JSON.parse(data);
+    try{
+      let message = JSON.parse(data);
+    }catch(error){
+      throw new Error(`Unable to parse the data ${error}`);
+    }
     switch(message.type){
         case POST_MESSAGE:
           message.id = uuidV4();
